@@ -1,0 +1,745 @@
+/* Custom Styles & Editorial Design Tokens for Minimal Daily Mail */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap');
+
+:root {
+  --bg-primary: #FAFAF8;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555550;
+  --text-muted: #888880;
+  --accent-red: #C8102E;
+  --accent-red-hover: #A00C24;
+  --border-subtle: #E5E5E0;
+  --border-medium: #D1D1CB;
+  --card-bg: #FFFFFF;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.font-serif-headline {
+  font-family: 'Newsreader', 'Source Serif 4', Georgia, serif;
+}
+
+.font-serif-body {
+  font-family: 'Source Serif 4', Georgia, serif;
+}
+
+.font-sans-ui {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FAFAF8;
+}
+::-webkit-scrollbar-thumb {
+  background: #D1D1CB;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A8A8A0;
+}
+
+/* Hover effects & Micro-interactions */
+.story-card-image-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.story-card-image {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+.story-card:hover .story-card-image {
+  transform: scale(1.03);
+  opacity: 0.95;
+}
+
+.headline-hover-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 0.3s ease-in-out;
+}
+
+.story-card:hover .headline-hover-underline,
+.headline-link:hover .headline-hover-underline {
+  background-size: 100% 1px;
+}
+
+/* Fade-in scroll observer support */
+.fade-in-on-scroll {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.fade-in-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom Reading Progress Bar */
+#reading-progress-bar {
+  transition: width 0.1s ease-out;
+}
+
+/* Backdrop blur support */
+.glass-header {
+  background-color: rgba(250, 250, 248, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Modal Overlay Animation */
+.modal-overlay {
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.modal-content {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease-in-out;
+}
+
+/* Tag Pill */
+.tag-pill {
+  color: var(--accent-red);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+}
+
+/* Editorial Dropcap */
+.dropcap::first-letter {
+  font-family: 'Newsreader', Georgia, serif;
+  float: left;
+  font-size: 3.8rem;
+  line-height: 0.8;
+  padding-top: 4px;
+  padding-right: 12px;
+  padding-bottom: 2px;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   THEME MODES (Controlled via Glass Dock Reader Settings)
+   ========================================================================== */
+body.theme-warm {
+  --bg-primary: #F4EFEA;
+  --card-bg: #FAF6F0;
+  --text-primary: #2C2621;
+  --border-subtle: #E2DDD5;
+}
+body.theme-warm .bg-brand-bg {
+  background-color: #F4EFEA !important;
+}
+body.theme-warm .bg-white {
+  background-color: #FAF6F0 !important;
+}
+
+body.theme-dark {
+  --bg-primary: #121316;
+  --card-bg: #1A1C23;
+  --text-primary: #EDEDED;
+  --text-secondary: #A0A5B5;
+  --border-subtle: #2A2D37;
+  --border-medium: #3E4251;
+  color: #EDEDED;
+}
+body.theme-dark .bg-brand-bg {
+  background-color: #121316 !important;
+}
+body.theme-dark .bg-white {
+  background-color: #1A1C23 !important;
+}
+body.theme-dark .text-brand-text,
+body.theme-dark .text-stone-900 {
+  color: #EDEDED !important;
+}
+body.theme-dark .text-brand-muted,
+body.theme-dark .text-stone-600,
+body.theme-dark .text-stone-500 {
+  color: #9CA3AF !important;
+}
+body.theme-dark .border-brand-divider,
+body.theme-dark .border-stone-200,
+body.theme-dark .border-stone-200\/60 {
+  border-color: #2A2D37 !important;
+}
+body.theme-dark .glass-header {
+  background-color: rgba(18, 19, 22, 0.88) !important;
+}
+
+body.font-mode-sans .font-serifHeadline,
+body.font-mode-sans .font-serif-headline {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   LIQUID GLASSY FLOATING MENU & BUTTON EMPHASIS STYLES
+   ========================================================================== */
+.liquid-glass-dock-shell {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(28px) saturate(200%) brightness(104%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(104%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    0 24px 48px -12px rgba(15, 23, 42, 0.18),
+    0 8px 24px -4px rgba(15, 23, 42, 0.08),
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.04);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.theme-dark .liquid-glass-dock-shell {
+  background: rgba(26, 28, 35, 0.75);
+  backdrop-filter: blur(28px) saturate(180%) brightness(100%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 24px 50px -10px rgba(0, 0, 0, 0.6),
+    0 8px 20px -4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Outer Chromatic Edge Glow */
+.liquid-glass-dock-shell::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 9999px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(200, 16, 46, 0.25), rgba(255, 255, 255, 0.4));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+body.theme-dark .liquid-glass-dock-shell::before {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(200, 16, 46, 0.4), rgba(255, 255, 255, 0.05));
+}
+
+/* Ensure floating dock is above page elements */
+@supports (backdrop-filter: blur(1px)) {
+  .liquid-glass-dock-shell {
+    will-change: transform, opacity;
+  }
+}
+
+/* Screen-reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   LIVE INGEST SPOTLIGHT BUTTON (Brand Red — no dark black styling)
+   ========================================================================== */
+.glass-spotlight-btn {
+  position: relative;
+  background: linear-gradient(135deg, #C8102E 0%, #A00C24 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow:
+    0 6px 20px -2px rgba(200, 16, 46, 0.45),
+    0 2px 8px 0 rgba(200, 16, 46, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+}
+
+.glass-spotlight-btn:hover {
+  background: linear-gradient(135deg, #D41835 0%, #C8102E 100%);
+  box-shadow:
+    0 8px 24px -2px rgba(200, 16, 46, 0.55),
+    0 4px 12px 0 rgba(200, 16, 46, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+/* ==========================================================================
+   DAILY DIGEST / LIVE INGEST MODAL — Opaque, High-Contrast Panel
+   ========================================================================== */
+.digest-modal-backdrop {
+  background: rgba(15, 15, 18, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 60;
+}
+
+.digest-modal-panel {
+  background: #FFFFFF;
+  border: 1px solid #E5E5E0;
+  box-shadow:
+    0 32px 64px -16px rgba(0, 0, 0, 0.28),
+    0 12px 32px -8px rgba(0, 0, 0, 0.12);
+  opacity: 1;
+  isolation: isolate;
+  z-index: 61;
+}
+
+body.theme-dark .digest-modal-panel {
+  background: #1E2028;
+  border-color: #3E4251;
+  box-shadow:
+    0 32px 64px -16px rgba(0, 0, 0, 0.65),
+    0 12px 32px -8px rgba(0, 0, 0, 0.4);
+}
+
+.digest-modal-panel .digest-heading {
+  color: #111111;
+  font-weight: 700;
+}
+
+body.theme-dark .digest-modal-panel .digest-heading {
+  color: #FFFFFF;
+}
+
+.digest-modal-panel .digest-body-text {
+  color: #444440;
+}
+
+body.theme-dark .digest-modal-panel .digest-body-text {
+  color: #C8CDD8;
+}
+
+.digest-modal-panel .digest-meta {
+  color: #666660;
+}
+
+body.theme-dark .digest-modal-panel .digest-meta {
+  color: #9CA3AF;
+}
+
+.digest-modal-panel .digest-divider {
+  border-color: #E5E5E0;
+}
+
+body.theme-dark .digest-modal-panel .digest-divider {
+  border-color: #3E4251;
+}
+
+.digest-modal-panel .digest-item:hover {
+  background: rgba(250, 250, 248, 0.95);
+}
+
+body.theme-dark .digest-modal-panel .digest-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.live-ingest-badge {
+  background: #C8102E;
+  color: #FFFFFF;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/* ==========================================================================
+   LOCATION FILTER POPOVER
+   ========================================================================== */
+.location-filter-popover {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(229, 229, 224, 0.9);
+  box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.22);
+}
+
+body.theme-dark .location-filter-popover {
+  background: rgba(30, 32, 40, 0.97);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.6);
+}
+
+.location-option-active {
+  background: rgba(200, 16, 46, 0.1);
+  color: #C8102E;
+  font-weight: 600;
+}
+
+body.theme-dark .location-option-active {
+  background: rgba(200, 16, 46, 0.2);
+  color: #F87171;
+}
+
+/* ==========================================================================
+   CATEGORIES POPOVER
+   ========================================================================== */
+.categories-popover {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(229, 229, 224, 0.9);
+  box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.22);
+}
+
+body.theme-dark .categories-popover {
+  background: rgba(30, 32, 40, 0.97);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ==========================================================================
+   SHORTIES — Full-Screen Vertical Reel Feed
+   ========================================================================== */
+body.shorties-active {
+  overflow: hidden;
+}
+
+body.shorties-active #main-news,
+body.shorties-active header,
+body.shorties-active footer {
+  display: none;
+}
+
+.shorties-view {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: #0A0A0C;
+  overflow: hidden;
+}
+
+.shorties-feed {
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.shortie-slide {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem 1.5rem 6rem;
+  overflow: hidden;
+}
+
+.shortie-slide-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.shortie-slide-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shortie-slide-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.55) 45%,
+    rgba(0, 0, 0, 0.25) 100%
+  );
+}
+
+.shortie-slide-content {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.shortie-category {
+  color: #C8102E;
+  font-weight: 700;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.shortie-headline {
+  font-family: 'Newsreader', 'Source Serif 4', Georgia, serif;
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.15;
+  margin-bottom: 0.75rem;
+}
+
+.shortie-summary {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.shortie-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.shortie-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.shortie-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.shortie-action-btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+  transform: scale(1.08);
+}
+
+.shortie-action-btn.saved {
+  color: #F87171;
+  background: rgba(200, 16, 46, 0.25);
+  border-color: rgba(200, 16, 46, 0.5);
+}
+
+.shorties-close-btn {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 50;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.shorties-close-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.shorties-scroll-hint {
+  position: absolute;
+  bottom: 5.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: shorties-bounce 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shorties-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.45; }
+  50% { transform: translateX(-50%) translateY(6px); opacity: 0.8; }
+}
+
+/* Dock active state indicator */
+.dock-nav-btn-active {
+  color: #C8102E !important;
+}
+
+body.theme-dark .dock-nav-btn-active {
+  color: #F87171 !important;
+}
+
+/* Floating dock z-index above shorties close but below modals */
+#floating-dock-root {
+  z-index: 55;
+  position: relative;
+}
+
+
+.glass-spotlight-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.35), 
+    transparent
+  );
+  transform: rotate(25deg);
+  animation: glass-shimmer 4s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+@keyframes glass-shimmer {
+  0% { transform: translateX(-150%) rotate(25deg); }
+  35%, 100% { transform: translateX(350%) rotate(25deg); }
+}
+
+/* Tactile Icon Button Emphasis */
+.glass-icon-btn {
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.04),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.theme-dark .glass-icon-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  color: #E2E8F0;
+}
+
+.glass-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 6px 16px -2px rgba(200, 16, 46, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    inset 0 1px 1px #FFFFFF;
+}
+
+body.theme-dark .glass-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* Glass Popover Menus */
+.liquid-glass-popover {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 28px 60px -12px rgba(0, 0, 0, 0.22),
+    0 10px 24px -6px rgba(0, 0, 0, 0.1),
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.95);
+}
+
+body.theme-dark .liquid-glass-popover {
+  background: rgba(22, 24, 30, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 28px 60px -10px rgba(0, 0, 0, 0.7),
+    0 10px 24px -4px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  color: #EDEDED;
+}
+
+/* Active Category Pill Animation Layer */
+.liquid-pill-active {
+  background: #FFFFFF;
+  box-shadow: 
+    0 4px 14px -2px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    inset 0 1px 1px rgba(255, 255, 255, 1);
+  border: 1px solid rgba(220, 220, 215, 0.8);
+}
+
+body.theme-dark .liquid-pill-active {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 
+    0 4px 14px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+/* Equalizer audio wave animation */
+.eq-bar {
+  animation: eq-bounce 1.2s ease-in-out infinite alternate;
+  transform-origin: bottom;
+}
+.eq-bar:nth-child(1) { animation-delay: 0.1s; height: 10px; }
+.eq-bar:nth-child(2) { animation-delay: 0.3s; height: 16px; }
+.eq-bar:nth-child(3) { animation-delay: 0.2s; height: 8px; }
+.eq-bar:nth-child(4) { animation-delay: 0.4s; height: 14px; }
+
+@keyframes eq-bounce {
+  0% { transform: scaleY(0.3); }
+  100% { transform: scaleY(1.1); }
+}
+
+/* Glass Tooltip */
+.glass-dock-tooltip {
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #F8FAFC;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Scrollbar hiding utility */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;      /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;              /* Chrome, Safari, Opera */
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure floating dock is above page elements */
+@supports (backdrop-filter: blur(1px)) {
+  .liquid-glass-dock-shell {
+    will-change: transform, opacity;
+  }
+}
+

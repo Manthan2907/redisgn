@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Daily Mail — Minimalist Edition</title>
+  <meta name="description" content="A calm, editorial, content-first reading experience. Distraction-free news coverage." />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: '#FAFAF8',
+              text: '#1A1A1A',
+              muted: '#666660',
+              accent: '#C8102E',
+              accentHover: '#A00C24',
+              divider: '#E5E5E0',
+              card: '#FFFFFF'
+            }
+          },
+          fontFamily: {
+            serifHeadline: ['Newsreader', 'Source Serif 4', 'Georgia', 'serif'],
+            serifBody: ['Source Serif 4', 'Georgia', 'serif'],
+            sansUI: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-brand-bg text-brand-text font-sansUI min-h-screen flex flex-col antialiased selection:bg-red-100 selection:text-red-900 pb-20">
+
+  <!-- Top Reading Progress Indicator -->
+  <div class="fixed top-0 left-0 right-0 h-1 bg-transparent z-50 pointer-events-none">
+    <div id="reading-progress-bar" class="h-full bg-brand-accent w-0"></div>
+  </div>
+
+  <!-- STICKY MINIMAL HEADER -->
+  <header class="sticky top-0 z-40 glass-header border-b border-brand-divider transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Top Utility Bar (Date & Editorial Tagline) -->
+      <div class="py-2 flex items-center justify-between text-xs text-brand-muted border-b border-stone-200/60 font-sansUI">
+        <div id="current-date" class="font-medium tracking-wide">Loading date...</div>
+        <div class="hidden md:flex items-center gap-6">
+          <span>Ad-Free Reader View</span>
+          <span class="inline-block w-1 h-1 rounded-full bg-stone-300"></span>
+          <span>Updated Continuously</span>
+        </div>
+      </div>
+
+      <!-- Main Navigation Bar -->
+      <div class="h-16 flex items-center justify-between gap-4">
+        <!-- Logo -->
+        <a href="#" class="flex flex-col group focus:outline-none focus:ring-2 focus:ring-stone-400 rounded">
+          <span class="font-serifHeadline text-2xl sm:text-3xl font-bold tracking-tight text-brand-text group-hover:text-brand-accent transition-colors">
+            THE DAILY MAIL
+          </span>
+          <span class="text-[10px] uppercase tracking-widest text-brand-muted font-sansUI font-semibold -mt-1">
+            Minimalist Reader
+          </span>
+        </a>
+
+        <!-- Top Right Header Badge (no duplicate nav actions — all in floating dock) -->
+        <div class="flex items-center gap-3">
+          <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 bg-stone-200/60 text-stone-700 text-xs font-semibold rounded-full border border-stone-300/60">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Live Edition
+          </span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hidden search trigger (invoked by floating dock & keyboard shortcut) -->
+  <button id="search-btn" class="sr-only" aria-hidden="true" tabindex="-1">Search</button>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main id="main-news" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16">
+
+    <!-- HERO SECTION: ONE FEATURED FLAGSHIP STORY -->
+    <section class="fade-in-on-scroll">
+      <article 
+        class="story-card cursor-pointer group grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white p-6 sm:p-8 rounded-2xl border border-brand-divider shadow-sm hover:shadow-md transition-all duration-300"
+        data-story
+        data-story-id="hero-1"
+        data-location="global"
+        data-category="SPECIAL REPORT"
+        data-title="The Silent Reshaping of Global Maritime Commerce"
+        data-dek="Deep inside autonomous port terminals and quiet Arctic routes, a frictionless revolution is redefining how humanity moves goods across oceans."
+        data-time="7 min read"
+      >
+        <!-- Hero Image (7 cols on desktop) -->
+        <div class="lg:col-span-7 story-card-image-wrapper rounded-xl aspect-[16/9] lg:aspect-[16/10] bg-stone-200">
+          <img 
+            src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1600&q=80" 
+            alt="Automated cargo terminal at twilight" 
+            class="story-card-image w-full h-full object-cover"
+            loading="eager"
+          />
+        </div>
+
+        <!-- Hero Content (5 cols on desktop) -->
+        <div class="lg:col-span-5 flex flex-col justify-center space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="tag-pill">SPECIAL REPORT</span>
+            <div class="flex items-center gap-3 text-xs text-brand-muted">
+              <span>7 min read</span>
+              <button class="bookmark-btn p-1 rounded hover:bg-stone-100 transition" data-story-id="hero-1" title="Save story">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="headline-link font-serifHeadline text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight text-brand-text group-hover:text-stone-800">
+            <span class="headline-hover-underline">
+              The Silent Reshaping of Global Maritime Commerce
+            </span>
+          </h1>
+
+          <!-- Dek / Summary -->
+          <p class="font-serifBody text-stone-600 text-base sm:text-lg leading-relaxed line-clamp-3">
+            Deep inside autonomous port terminals and quiet Arctic routes, a frictionless revolution is redefining how humanity moves goods across oceans — without diesel fumes or supply chain bottlenecks.
+          </p>
+
+          <!-- Metadata -->
+          <div class="pt-4 border-t border-brand-divider flex items-center justify-between text-xs text-brand-muted font-sansUI">
+            <div>
+              <span class="font-semibold text-stone-800">Elena Rostova</span>
+              <span class="mx-1">•</span>
+              <span>Maritime Affairs</span>
+            </div>
+            <time datetime="2026-08-31">Today, 06:30 AM</time>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- SECTION DIVIDER -->
+    <div class="border-t border-brand-divider"></div>
+
+    <!-- SECONDARY STORIES GRID SECTION -->
+    <section class="space-y-6 fade-in-on-scroll">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="font-serifHeadline text-2xl font-semibold text-brand-text">Curated Dispatch</h2>
+          <p class="text-xs text-brand-muted font-sansUI mt-1">In-depth reporting from around the globe</p>
+        </div>
+        <span class="text-xs text-brand-muted font-sansUI uppercase tracking-widest hidden sm:inline">6 Selected Stories</span>
+      </div>
+
+      <!-- 3-Column Card Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Story 1 (Politics) -->
+        <article 
+          class="story-card bg-white p-5 rounded-xl border border-brand-divider shadow-sm hover:shadow transition-all duration-300 flex flex-col justify-between cursor-pointer group"
+          data-story
+          data-story-id="sec-1"
+          data-location="global"
+          data-category="POLITICS"
+          data-title="The New Diplomacy of Renewable Grid Alliances"
+          data-dek="Cross-border high-voltage cables are creating unprecedented economic ties across continents."
+          data-time="4 min read"
+        >
+          <div class="space-y-4">
+            <div class="story-card-image-wrapper rounded-lg aspect-[16/10] bg-stone-200">
+              <img 
+                src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80" 
+                alt="Renewable power infrastructure" 
+                class="story-card-image w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="tag-pill">POLITICS</span>
+              <button class="bookmark-btn p-1 text-stone-400 hover:text-stone-900 transition" data-story-id="sec-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                </svg>
+              </button>
+            </div>
+            <h3 class="font-serifHeadline text-xl font-semibold leading-snug text-brand-text">
+              <span class="headline-hover-underline">The New Diplomacy of Renewable Grid Alliances</span>
+            </h3>
+            <p class="font-serifBody text-stone-600 text-sm leading-relaxed line-clamp-2">
+              Cross-border high-voltage cables are creating unprecedented economic ties across continents.
+            </p>
+          </div>
+          <div class="mt-6 pt-3 border-t border-brand-divider flex items-center justify-between text-xs text-brand-muted">
+            <span>Julian Thorne</span>
+            <time>4h ago</time>
+          </div>
+        </article>
+
+        <!-- Story 2 (Technology) -->
+        <article 
+          class="story-card bg-white p-5 rounded-xl border border-brand-divider shadow-sm hover:shadow transition-all duration-300 flex flex-col justify-between cursor-pointer group"
+          data-story
+          data-story-id="sec-2"
+          data-location="india"
+          data-category="TECHNOLOGY"
+          data-title="Silicon and Stone: The Rise of Bio-Architectural Computing"
+          data-dek="Data centers engineered with living mycelium insulation reduce cooling demands by 60 percent."
+          data-time="5 min read"
+        >
+          <div class="space-y-4">
+            <div class="story-card-image-wrapper rounded-lg aspect-[16/10] bg-stone-200">
+              <img 
+                src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80" 
+                alt="Bio-architectural computing facility" 
+                class="story-card-image w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="tag-pill">TECHNOLOGY</span>
+              <button class="bookmark-btn p-1 text-stone-400 hover:text-stone-900 transition" data-story-id="sec-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                </svg>
+              </button>
+            </div>
+            <h3 class="font-serifHeadline text-xl font-semibold leading-snug text-brand-text">
+              <span class="headline-hover-underline">Silicon & Stone: Bio-Architectural Computing</span>
+            </h3>
+            <p class="font-serifBody text-stone-600 text-sm leading-relaxed line-clamp-2">
+              Data centers engineered with living mycelium insulation reduce cooling demands by 60 percent.
+            </p>
+          </div>
+          <div class="mt-6 pt-3 border-t border-brand-divider flex items-center justify-between text-xs text-brand-muted">
+            <span>Sarah Chen</span>
+            <time>6h ago</time>
+          </div>
+        </article>
+
+        <!-- Story 3 (Culture) -->
+        <article 
+          class="story-card bg-white p-5 rounded-xl border border-brand-divider shadow-sm hover:shadow transition-all duration-300 flex flex-col justify-between cursor-pointer group"
+          data-story
+          data-story-id="sec-3"
+          data-location="global"
+          data-category="CULTURE"
+          data-title="The Renaissance of Paper: Why Physical Media Holds Strong"
+          data-dek="In an age of hyper-curated digital streams, tangible print publications are seeing record subscriber growth."
+          data-time="6 min read"
+        >
+          <div class="space-y-4">
+            <div class="story-card-image-wrapper rounded-lg aspect-[16/10] bg-stone-200">
+              <img 
+                src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=80" 
+                alt="Independent print press" 
+                class="story-card-image w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="tag-pill">CULTURE</span>
+              <button class="bookmark-btn p-1 text-stone-400 hover:text-stone-900 transition" data-story-id="sec-3">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                </svg>
+              </button>
+            </div>
+            <h3 class="font-serifHeadline text-xl font-semibold leading-snug text-brand-text">
+              <span class="headline-hover-underline">The Renaissance of Paper & Print Media</span>
+            </h3>
+            <p class="font-serifBody text-stone-600 text-sm leading-relaxed line-clamp-2">
+              In an age of hyper-curated digital streams, tangible print publications are seeing record subscriber growth.
+            </p>
+          </div>
+          <div class="mt-6 pt-3 border-t border-brand-divider flex items-center justify-between text-xs text-brand-muted">
+            <span>Arthur Pendelton</span>
+            <time>8h ago</time>
+          </div>
+        </article>
+
+        <!-- Story 4 (Business) -->
+        <article 
+          class="story-card bg-white p-5 rounded-xl border border-brand-divider shadow-sm hover:shadow transition-all duration-300 flex flex-col justify-between cursor-pointer group"
+          data-story
+          data-story-id="sec-4"
+          data-location="india"
+          data-category="BUSINESS"
+          data-title="Central Banks Navigate the Shift to Decentralized Settlement"
+          data-dek="How sovereign monetary authorities are incorporating instant ledger technology into daily operations."
+          data-time="5 min read"
+        >
+          <div class="space-y-4">
+            <div class="story-card-image-wrapper rounded-lg aspect-[16/10] bg-stone-200">
+              <img 
+                src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80" 
+                alt="Financial liquidity monitors" 
+                class="story-card-image w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="tag-pill">BUSINESS</span>
+              <button class="bookmark-btn p-1 text-stone-400 hover:text-stone-900 transition" data-story-id="sec-4">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                </svg>
+              </button>
+            </div>
+            <h3 class="font-serifHeadline text-xl font-semibold leading-snug text-brand-text">
+              <span class="headline-hover-underline">Central Banks Shift to Instant Ledger Settlement</span>
+            </h3>
+            <p class="font-serifBody text-stone-600 text-sm leading-relaxed line-clamp-2">
+              How sovereign monetary authorities are incorporating instant ledger technology into daily operations.
+            </p>
+          </div>
+          <div class="mt-6 pt-3 border-t border-brand-divider flex items-center justify-between text-xs text-brand-muted">
+            <span>Victoria Sterling</span>
+            <time>10h ago</time>
+          </div>
+        </article>
+
+        <!-- Story 5 (Science) -->
+        <article 
+          class="story-card bg-white p-5 rounded-xl border border-brand-divider shadow-sm hover:shadow transition-all duration-300 flex flex-col justify-between cursor-pointer group"
+          data-story
+          data-story-id="sec-5"
+          data-location="global"
+          data-category="SCIENCE"
+          data-title="Deep Sea Exploration Uncovers Ancient Hydrothermal Ecosystems"
+          data-dek="Robotic submersibles in the Pacific Basin capture high-definition footage of unknown organisms."
+          data-time="6 min read"
+        >
+          <div class="space-y-4">
+            <div class="story-card-image-wrapper rounded-lg aspect-[16/10] bg-stone-200">
+              <img 
+                src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80" 
+                alt="Deep ocean research" 
+                class="story-card-image w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="tag-pill">SCIENCE</span>
+              <button class="bookmark-btn p-1 text-stone-400 hover:text-stone-900 transition" data-story-id="sec-5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                </svg>
+              </button>
+            </div>
+            <h3 class="font-serifHeadline text-xl font-semibold leading-snug text-brand-text">
+              <span class="headline-hover-underline">Deep Sea Research Uncovers Hydrothermal Vents</span>
+            </h3>
+            <p class="font-serifBody text-stone-600 text-sm leading-relaxed line-clamp-2">
+              Robotic submersibles in the Pacific Basin capture high-definition footage of unknown organisms.
+            </p>
+          </div>
+          <div class="mt-6 pt-3 border-t border-brand-divider flex items-center justify-between text-xs text-brand-muted">
+            <span>Dr. Liam O’Connor</span>
+            <time>12h ago</time>
+          </div>
+        </article>
+
+        <!-- Story 6 (World) -->
+        <article 
+          class="story-card bg-white p-5 rounded-xl border border-brand-divider shadow-sm hover:shadow transition-all duration-300 flex flex-col justify-between cursor-pointer group"
+          data-story
+          data-story-id="sec-6"
+          data-location="state-region"
+          data-category="WORLD"
+          data-title="Urban Forestry Mandates Transform European Metropolis Air Quality"
+          data-dek="Ten years after urban canopy legislation passed, cities report record reductions in heat island effects."
+          data-time="4 min read"
+        >
+          <div class="space-y-4">
+            <div class="story-card-image-wrapper rounded-lg aspect-[16/10] bg-stone-200">
+              <img 
+                src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80" 
+                alt="Urban green forest street" 
+                class="story-card-image w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="tag-pill">WORLD</span>
+              <button class="bookmark-btn p-1 text-stone-400 hover:text-stone-900 transition" data-story-id="sec-6">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                </svg>
+              </button>
+            </div>
+            <h3 class="font-serifHeadline text-xl font-semibold leading-snug text-brand-text">
+              <span class="headline-hover-underline">Urban Forestry Mandates Transform European Air Quality</span>
+            </h3>
+            <p class="font-serifBody text-stone-600 text-sm leading-relaxed line-clamp-2">
+              Ten years after urban canopy legislation passed, cities report record reductions in heat island effects.
+            </p>
+          </div>
+          <div class="mt-6 pt-3 border-t border-brand-divider flex items-center justify-between text-xs text-brand-muted">
+            <span>Claire Dubois</span>
+            <time>14h ago</time>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SECTION DIVIDER -->
+    <div class="border-t border-brand-divider"></div>
+
+    <!-- "LATEST NEWS" SECTION (VERTICAL TEXT-ONLY LIST FOR HIGH SCANNABILITY) -->
+    <section class="space-y-6 fade-in-on-scroll">
+      <div class="flex items-center justify-between pb-2 border-b border-stone-300">
+        <div class="flex items-center gap-3">
+          <h2 class="font-serifHeadline text-2xl font-semibold text-brand-text">Latest Bulletins</h2>
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-accent"></span>
+          </span>
+        </div>
+        <span class="text-xs text-brand-muted font-sansUI">Text-only quick view</span>
+      </div>
+
+      <!-- Vertical Clean List -->
+      <div class="divide-y divide-brand-divider font-sansUI">
+        
+        <div 
+          class="py-4 hover:bg-stone-100/70 rounded px-3 -mx-3 transition flex flex-col sm:flex-row sm:items-center justify-between gap-2 cursor-pointer group"
+          data-story
+          data-story-id="lat-1"
+          data-location="local"
+          data-category="BUSINESS"
+          data-title="European Semiconductor Consortium Announces €12B Clean Fab Facility in Munich"
+          data-time="18m ago"
+        >
+          <div class="flex items-center gap-4 flex-1">
+            <span class="tag-pill shrink-0 w-24">BUSINESS</span>
+            <h3 class="font-serifHeadline text-lg font-medium text-brand-text group-hover:text-brand-accent transition-colors">
+              <span class="headline-hover-underline">European Semiconductor Consortium Announces €12B Clean Fab Facility in Munich</span>
+            </h3>
+          </div>
+          <div class="flex items-center gap-4 text-xs text-brand-muted shrink-0 self-end sm:self-center">
+            <time>18m ago</time>
+            <svg class="w-4 h-4 text-stone-400 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </div>
+        </div>
+
+        <div 
+          class="py-4 hover:bg-stone-100/70 rounded px-3 -mx-3 transition flex flex-col sm:flex-row sm:items-center justify-between gap-2 cursor-pointer group"
+          data-story
+          data-story-id="lat-2"
+          data-location="global"
+          data-category="WORLD"
+          data-title="Pacific Island Accord Establishes Permanent Sanctuary for Migratory Whale Species"
+          data-time="45m ago"
+        >
+          <div class="flex items-center gap-4 flex-1">
+            <span class="tag-pill shrink-0 w-24">WORLD</span>
+            <h3 class="font-serifHeadline text-lg font-medium text-brand-text group-hover:text-brand-accent transition-colors">
+              <span class="headline-hover-underline">Pacific Island Accord Establishes Permanent Sanctuary for Migratory Whale Species</span>
+            </h3>
+          </div>
+          <div class="flex items-center gap-4 text-xs text-brand-muted shrink-0 self-end sm:self-center">
+            <time>45m ago</time>
+            <svg class="w-4 h-4 text-stone-400 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </div>
+        </div>
+
+        <div 
+          class="py-4 hover:bg-stone-100/70 rounded px-3 -mx-3 transition flex flex-col sm:flex-row sm:items-center justify-between gap-2 cursor-pointer group"
+          data-story
+          data-story-id="lat-3"
+          data-location="india"
+          data-category="TECHNOLOGY"
+          data-title="Open-Source AI Model Passes Comprehensive Quantum Encryption Safety Benchmark"
+          data-time="1h ago"
+        >
+          <div class="flex items-center gap-4 flex-1">
+            <span class="tag-pill shrink-0 w-24">TECHNOLOGY</span>
+            <h3 class="font-serifHeadline text-lg font-medium text-brand-text group-hover:text-brand-accent transition-colors">
+              <span class="headline-hover-underline">Open-Source AI Model Passes Comprehensive Quantum Encryption Safety Benchmark</span>
+            </h3>
+          </div>
+          <div class="flex items-center gap-4 text-xs text-brand-muted shrink-0 self-end sm:self-center">
+            <time>1h ago</time>
+            <svg class="w-4 h-4 text-stone-400 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </div>
+        </div>
+
+        <div 
+          class="py-4 hover:bg-stone-100/70 rounded px-3 -mx-3 transition flex flex-col sm:flex-row sm:items-center justify-between gap-2 cursor-pointer group"
+          data-story
+          data-story-id="lat-4"
+          data-location="state-region"
+          data-category="CULTURE"
+          data-title="Venice Biennale Award Given to Solar-Powered Kinetic Pavilion Architecture"
+          data-time="2h ago"
+        >
+          <div class="flex items-center gap-4 flex-1">
+            <span class="tag-pill shrink-0 w-24">CULTURE</span>
+            <h3 class="font-serifHeadline text-lg font-medium text-brand-text group-hover:text-brand-accent transition-colors">
+              <span class="headline-hover-underline">Venice Biennale Award Given to Solar-Powered Kinetic Pavilion Architecture</span>
+            </h3>
+          </div>
+          <div class="flex items-center gap-4 text-xs text-brand-muted shrink-0 self-end sm:self-center">
+            <time>2h ago</time>
+            <svg class="w-4 h-4 text-stone-400 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </div>
+        </div>
+
+        <div 
+          class="py-4 hover:bg-stone-100/70 rounded px-3 -mx-3 transition flex flex-col sm:flex-row sm:items-center justify-between gap-2 cursor-pointer group"
+          data-story
+          data-story-id="lat-5"
+          data-location="global"
+          data-category="SCIENCE"
+          data-title="James Webb Space Telescope Maps Water Vapor Dynamics on Exoplanet K2-18b"
+          data-time="3h ago"
+        >
+          <div class="flex items-center gap-4 flex-1">
+            <span class="tag-pill shrink-0 w-24">SCIENCE</span>
+            <h3 class="font-serifHeadline text-lg font-medium text-brand-text group-hover:text-brand-accent transition-colors">
+              <span class="headline-hover-underline">James Webb Space Telescope Maps Water Vapor Dynamics on Exoplanet K2-18b</span>
+            </h3>
+          </div>
+          <div class="flex items-center gap-4 text-xs text-brand-muted shrink-0 self-end sm:self-center">
+            <time>3h ago</time>
+            <svg class="w-4 h-4 text-stone-400 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- SEARCH OVERLAY MODAL -->
+  <div id="search-modal" class="modal-overlay fixed inset-0 bg-stone-900/60 backdrop-blur-md z-50 flex items-start justify-center p-4 sm:p-6 lg:p-20 opacity-0 pointer-events-none">
+    <div class="modal-content bg-brand-bg w-full max-w-2xl rounded-2xl shadow-2xl border border-stone-300 overflow-hidden transform scale-95 transition-all">
+      <div class="p-4 border-b border-brand-divider flex items-center gap-3">
+        <svg class="w-5 h-5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Search articles by title, topic, or keyword..." 
+          class="w-full bg-transparent text-stone-900 font-sansUI text-base focus:outline-none placeholder-stone-400"
+        />
+        <button id="close-search" class="text-xs text-stone-500 hover:text-stone-800 bg-stone-200/60 px-2.5 py-1 rounded transition">ESC</button>
+      </div>
+      <div id="search-results" class="p-4 max-h-96 overflow-y-auto space-y-2">
+        <!-- Results or suggestions populated via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTICLE QUICK READER MODAL -->
+  <div id="article-modal" class="modal-overlay fixed inset-0 bg-stone-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 md:p-8 opacity-0 pointer-events-none">
+    <div class="modal-content bg-brand-bg w-full max-w-3xl max-h-[92vh] rounded-2xl shadow-2xl border border-stone-300 overflow-y-auto transform scale-95 transition-all flex flex-col">
+      
+      <!-- Sticky Modal Top Header Controls -->
+      <div class="sticky top-0 bg-brand-bg/95 backdrop-blur border-b border-brand-divider px-6 py-3 flex items-center justify-between z-10 font-sansUI">
+        <div class="flex items-center gap-3">
+          <span id="modal-category" class="tag-pill">SPECIAL REPORT</span>
+          <span id="modal-read-time" class="text-xs text-stone-400">7 min read</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="hidden sm:flex items-center border border-stone-200 rounded-lg overflow-hidden text-xs text-stone-600 mr-2">
+            <button id="font-size-down" class="px-2.5 py-1 hover:bg-stone-200 transition">A-</button>
+            <span class="w-[1px] h-4 bg-stone-200"></span>
+            <button id="font-size-up" class="px-2.5 py-1 hover:bg-stone-200 transition font-bold">A+</button>
+          </div>
+          <button id="modal-bookmark-btn" class="bookmark-btn p-2 text-stone-400 hover:text-stone-900 rounded-lg transition" title="Save story">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+            </svg>
+          </button>
+          <button id="close-article-modal" class="p-2 text-stone-500 hover:text-stone-900 rounded-lg transition" aria-label="Close article">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Full Article Content Body -->
+      <article class="p-6 sm:p-10 space-y-6 flex-grow">
+        <header class="space-y-4">
+          <h1 id="modal-title" class="font-serifHeadline text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-text leading-tight">
+            Title Placeholder
+          </h1>
+          <p id="modal-dek" class="font-serifBody text-stone-600 text-lg sm:text-xl leading-relaxed italic">
+            Dek summary placeholder text.
+          </p>
+          <div class="pt-4 border-t border-brand-divider flex items-center justify-between text-xs text-stone-500 font-sansUI">
+            <div>
+              <span id="modal-author" class="font-semibold text-stone-800">Author Name</span>
+              <span class="mx-1">•</span>
+              <span id="modal-role" class="text-stone-500">Correspondent</span>
+            </div>
+            <time id="modal-date">August 31, 2026</time>
+          </div>
+        </header>
+
+        <figure class="space-y-2 my-6">
+          <div class="rounded-xl overflow-hidden aspect-[16/9] bg-stone-200">
+            <img id="modal-image" src="" alt="" class="w-full h-full object-cover" />
+          </div>
+          <figcaption id="modal-caption" class="text-xs text-stone-500 font-sansUI italic text-center">
+            Image caption placeholder
+          </figcaption>
+        </figure>
+
+        <div id="modal-body" class="prose prose-stone max-w-none space-y-4 font-serifBody text-stone-800 text-lg leading-relaxed">
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- MINIMAL FOOTER -->
+  <footer class="bg-stone-900 text-stone-300 mt-20 border-t border-stone-800 mb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-stone-800 font-sansUI">
+        
+        <div class="space-y-3">
+          <span class="font-serifHeadline text-2xl font-bold text-stone-100">THE DAILY MAIL</span>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            Reimagining news with clarity, high editorial integrity, and distraction-free design.
+          </p>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-stone-200">Sections</h4>
+          <ul class="space-y-2 text-xs text-stone-400">
+            <li><a href="#" class="hover:text-stone-100 transition">World News</a></li>
+            <li><a href="#" class="hover:text-stone-100 transition">Politics & Policy</a></li>
+            <li><a href="#" class="hover:text-stone-100 transition">Global Business</a></li>
+            <li><a href="#" class="hover:text-stone-100 transition">Technology & AI</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-stone-200">Editorial Standards</h4>
+          <ul class="space-y-2 text-xs text-stone-400">
+            <li><a href="#" class="hover:text-stone-100 transition">Code of Ethics</a></li>
+            <li><a href="#" class="hover:text-stone-100 transition">Fact Checking Policy</a></li>
+            <li><a href="#" class="hover:text-stone-100 transition">Corrections Log</a></li>
+            <li><a href="#" class="hover:text-stone-100 transition">Reader Submissions</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-stone-200">Reader Preferences</h4>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            Zero third-party trackers, zero pop-up banner advertisements, ultra-fast load times.
+          </p>
+          <div class="pt-1 flex items-center gap-3 text-xs text-stone-400">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Minimalist Theme Active</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 font-sansUI gap-4">
+        <p>© 2026 Daily Mail Minimalist Edition. All rights reserved.</p>
+        <div class="flex space-x-6">
+          <a href="#" class="hover:text-stone-300 transition">Privacy</a>
+          <a href="#" class="hover:text-stone-300 transition">Terms</a>
+          <a href="#" class="hover:text-stone-300 transition">Accessibility</a>
+          <a href="#" class="hover:text-stone-300 transition">RSS Feed</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ROOT CONTAINER FOR FRAMER MOTION FLOATING LIQUID GLASS DOCK -->
+  <div id="floating-dock-root"></div>
+
+  <!-- Main JavaScript Files -->
+  <script src="script.js"></script>
+  <script type="module" src="floating-dock.js"></script>
+</body>
+</html>
