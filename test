@@ -1,235 +1,92 @@
-Modify the EXISTING MANGAN-X / ByteValley application. Do not create a new app or redesign unrelated pages.
+Redesign the navigation and digest UI. The current Daily Digest modal has a visibility/contrast issue where text appears faded and difficult to read.
 
-TASK: Improve the "FLAGSHIP MINE OVERVIEW" visual section so it is mine-specific and meaningful.
+Make these changes:
 
-First inspect the current implementation and identify:
-- The component/file rendering "Site Visual & Raster Overlay"
-- Where the currently displayed mine data comes from
-- Whether the current graphic is shared/static for all mines
+1. REMOVE SIDE NAVIGATION
+- Remove the existing side menu/navigation completely.
+- Do not replace it with another permanent sidebar.
 
-Do not assume anything. Trace the current data flow first.
+2. KEEP ONLY ONE FLOATING NAVIGATION DOCK
+- Keep a single floating glass dock fixed at the bottom center.
+- It should contain the main navigation/actions.
+- Keep it compact, responsive, and clearly visible.
+- No duplicate navigation in headers or sidebars.
 
-==================================================
-CURRENT PROBLEM
-==================================================
+3. FIX DAILY DIGEST MODAL VISIBILITY
+- The current modal content is too transparent/faded.
+- Make the modal background sufficiently opaque.
+- Use strong text contrast.
+- Headings: near-black in light mode / white in dark mode.
+- Body text: clearly readable.
+- Dividers should be subtle but visible.
+- Ensure backdrop blur does not reduce readability.
+- Fix z-index, opacity, backdrop, and any inherited opacity/filter issues.
 
-The current section:
+4. LIVE INGEST
+- Rename/change “Live Digest” to “LIVE INGEST”.
+- Use the same brand accent red:
+  #C8102E
+- The LIVE INGEST pill/button should be visually prominent.
+- Avoid dark black styling for this primary action.
 
-"SITE VISUAL & RASTER OVERLAY"
+5. ADD LOCATION FILTER
+- Add a location filter inside the floating dock or as a small popover from it.
+- Use a location/pin icon.
+- Allow filtering news by:
+  - Global
+  - India
+  - State/Region
+  - Local
+- Keep the UI minimal and consistent with the glass design.
 
-with tabs:
+6. ADD A NEW TAB: “SHORTIES”
+- Create a separate navigation tab named “Shorties”.
+- Shorties should NOT mix with normal long-form news.
+- Clicking Shorties opens a separate full-screen/mobile-style vertical news feed.
 
-- Contour
-- Satellite
-- Geology
+7. SHORTIES EXPERIENCE
+- Implement reel-like vertical scrolling.
+- One short news story should occupy approximately one viewport/screen.
+- Use CSS scroll snap.
+- Each Shortie should contain:
+  - Category
+  - Large headline
+  - 1–2 line summary
+  - Location
+  - Time
+  - Optional image/background
+  - Save/share actions
+- Scroll vertically to move to the next news item.
+- Add smooth transitions.
+- Desktop should also support this experience cleanly.
 
-appears like a generic/static SVG visualization.
+Structure:
 
-I do not want the same visual with only different text for every mine.
-
-Each selected mine should load its own visual/data configuration.
-
-==================================================
-CHANGE THE SECTION
-==================================================
-
-Rename:
-
-"SITE VISUAL & RASTER OVERLAY"
-
-to:
-
-"MINE INTELLIGENCE VIEW"
-
-Change the modes to:
-
-1. TERRAIN
-2. SATELLITE
-3. INTELLIGENCE
-
-Keep the UI clean, professional, and consistent with the existing ByteValley/MANGAN-X dark government/industrial design.
-
-==================================================
-1. TERRAIN MODE
-==================================================
-
-Show mine-specific terrain information.
-
-Support data such as:
-
-- Mine boundary
-- Pit/working area
-- Elevation/contours
-- Access roads
-- Drill locations
-- Equipment locations where available
-
-Do not fake identical geometry for every mine.
-
-For the current prototype, create mine-specific structured demo data if real data is not yet connected.
-
-Clearly structure it so real GIS/GeoJSON/API data can replace it later.
-
-==================================================
-2. SATELLITE MODE
-==================================================
-
-Show the mine's actual geographic area or a clearly labelled placeholder layer based on the mine coordinates.
-
-The architecture should support future layers such as:
-
-- Satellite imagery
-- NDVI
-- Soil moisture
-- Land surface temperature
-- SAR imagery
-
-Do not claim the imagery is live satellite data unless an actual API/dataset is connected.
-
-If real imagery is not currently integrated, label it appropriately as DEMO / SAMPLE DATA where necessary.
-
-The selected mine must control the geographic extent shown.
-
-==================================================
-3. INTELLIGENCE MODE
-==================================================
-
-This should be the most important mode.
-
-Show mine-specific decision-support layers such as:
-
-- Manganese prospectivity zones
-- Drill points
-- Known occurrences
-- Geological/structural indicators
-- Confidence level
-
-Clicking or selecting a zone should update the mine details/evidence section if such functionality already exists.
-
-Use smooth geographic shapes/overlays.
-
-Do NOT use:
-- random pixel grids
-- identical blobs for every mine
-- fake random noise
-
-==================================================
-MINE-SPECIFIC DATA MODEL
-==================================================
-
-Create or improve a typed structure similar to:
-
-Mine
-- id
-- name
-- state
-- latitude
-- longitude
-- boundary
-- terrainData
-- drillPoints
-- equipment
-- satelliteLayers
-- prospectivityZones
-
-ProspectivityZone
-- id
-- geometry
-- score
-- confidence
-- evidence
-
-The exact structure may be improved based on the existing project architecture.
-
-Keep mock/demo data separate from UI components.
-
-==================================================
-EXPECTED BEHAVIOUR
-==================================================
-
-The flow should be:
-
-Select Mine
+Main News
     ↓
-Load that mine's ID and geographic data
+Normal articles + categories
+
+Floating Dock
+    ├── Home
+    ├── Categories
+    ├── LIVE INGEST
+    ├── Location Filter
+    ├── Shorties
+    ├── Search
+    └── Settings/Saved
+
+Shorties Tab
     ↓
-MINE INTELLIGENCE VIEW updates
-    ↓
-Terrain / Satellite / Intelligence all use that mine's data
-    ↓
-Select zone or drill point
-    ↓
-Show relevant details/evidence
+[ Short News 1 ]
+       ↓ scroll
+[ Short News 2 ]
+       ↓ scroll
+[ Short News 3 ]
 
-If the current app already has mine selection logic, reuse it.
-
-Do not create duplicate state systems unnecessarily.
-
-==================================================
-IMPORTANT
-==================================================
-
-Do not implement a paid map API.
-
-Do not add unnecessary dependencies.
-
-If Leaflet/react-leaflet already exists and is suitable, reuse it.
-
-Otherwise preserve the current implementation but make the visual genuinely mine-specific and data-driven.
-
-Prepare the component architecture so future FastAPI endpoints can provide data such as:
-
-GET /mines/{mineId}
-GET /mines/{mineId}/layers
-GET /mines/{mineId}/prospectivity
-
-Do not implement the backend yet.
-
-==================================================
-DO NOT BREAK
-==================================================
-
-Preserve:
-- Existing routes
-- Existing mine overview functionality
-- Reserve Mapping
-- Production/shortfall features
-- Other application pages
-- Current styling system where possible
-
-Only modify files necessary for this feature.
-
-==================================================
-VALIDATION
-==================================================
-
-After implementation:
-
-1. Test switching between at least the existing mines.
-2. Confirm each mine displays different data/geometry/configuration.
-3. Confirm Terrain/Satellite/Intelligence tabs work.
-4. Confirm no generic identical visualization is reused incorrectly.
-5. Run npm run build.
-6. Fix all errors caused by your changes.
-7. Inspect git diff.
-8. Run git status.
-
-Then commit all relevant changes:
-
-git add <relevant changed files>
-git commit -m "feat: add mine-specific intelligence views"
-
-Do not push to GitHub unless explicitly requested.
-
-Finally report:
-- Files changed
-- How mine-specific data flows through the UI
-- What is real data vs demo data
-- Future API integration points
-- Build result
-- Commit hash
-
-
-already few are added
-Whichever is left add them
-and fix it
+Important:
+- Preserve existing functionality: search, bookmarks, article modal, category filtering, theme switching, font controls.
+- Do not break existing IDs or event listeners unless updating all related references.
+- Update index.html, styles.css, script.js, and floating-dock.js wherever required.
+- Remove dead code related to the old side menu.
+- Make all text readable and verify mobile responsiveness.
+- Keep the design minimal, premium, editorial, and not overcrowded.
