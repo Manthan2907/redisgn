@@ -1,0 +1,235 @@
+Modify the EXISTING MANGAN-X / ByteValley application. Do not create a new app or redesign unrelated pages.
+
+TASK: Improve the "FLAGSHIP MINE OVERVIEW" visual section so it is mine-specific and meaningful.
+
+First inspect the current implementation and identify:
+- The component/file rendering "Site Visual & Raster Overlay"
+- Where the currently displayed mine data comes from
+- Whether the current graphic is shared/static for all mines
+
+Do not assume anything. Trace the current data flow first.
+
+==================================================
+CURRENT PROBLEM
+==================================================
+
+The current section:
+
+"SITE VISUAL & RASTER OVERLAY"
+
+with tabs:
+
+- Contour
+- Satellite
+- Geology
+
+appears like a generic/static SVG visualization.
+
+I do not want the same visual with only different text for every mine.
+
+Each selected mine should load its own visual/data configuration.
+
+==================================================
+CHANGE THE SECTION
+==================================================
+
+Rename:
+
+"SITE VISUAL & RASTER OVERLAY"
+
+to:
+
+"MINE INTELLIGENCE VIEW"
+
+Change the modes to:
+
+1. TERRAIN
+2. SATELLITE
+3. INTELLIGENCE
+
+Keep the UI clean, professional, and consistent with the existing ByteValley/MANGAN-X dark government/industrial design.
+
+==================================================
+1. TERRAIN MODE
+==================================================
+
+Show mine-specific terrain information.
+
+Support data such as:
+
+- Mine boundary
+- Pit/working area
+- Elevation/contours
+- Access roads
+- Drill locations
+- Equipment locations where available
+
+Do not fake identical geometry for every mine.
+
+For the current prototype, create mine-specific structured demo data if real data is not yet connected.
+
+Clearly structure it so real GIS/GeoJSON/API data can replace it later.
+
+==================================================
+2. SATELLITE MODE
+==================================================
+
+Show the mine's actual geographic area or a clearly labelled placeholder layer based on the mine coordinates.
+
+The architecture should support future layers such as:
+
+- Satellite imagery
+- NDVI
+- Soil moisture
+- Land surface temperature
+- SAR imagery
+
+Do not claim the imagery is live satellite data unless an actual API/dataset is connected.
+
+If real imagery is not currently integrated, label it appropriately as DEMO / SAMPLE DATA where necessary.
+
+The selected mine must control the geographic extent shown.
+
+==================================================
+3. INTELLIGENCE MODE
+==================================================
+
+This should be the most important mode.
+
+Show mine-specific decision-support layers such as:
+
+- Manganese prospectivity zones
+- Drill points
+- Known occurrences
+- Geological/structural indicators
+- Confidence level
+
+Clicking or selecting a zone should update the mine details/evidence section if such functionality already exists.
+
+Use smooth geographic shapes/overlays.
+
+Do NOT use:
+- random pixel grids
+- identical blobs for every mine
+- fake random noise
+
+==================================================
+MINE-SPECIFIC DATA MODEL
+==================================================
+
+Create or improve a typed structure similar to:
+
+Mine
+- id
+- name
+- state
+- latitude
+- longitude
+- boundary
+- terrainData
+- drillPoints
+- equipment
+- satelliteLayers
+- prospectivityZones
+
+ProspectivityZone
+- id
+- geometry
+- score
+- confidence
+- evidence
+
+The exact structure may be improved based on the existing project architecture.
+
+Keep mock/demo data separate from UI components.
+
+==================================================
+EXPECTED BEHAVIOUR
+==================================================
+
+The flow should be:
+
+Select Mine
+    ↓
+Load that mine's ID and geographic data
+    ↓
+MINE INTELLIGENCE VIEW updates
+    ↓
+Terrain / Satellite / Intelligence all use that mine's data
+    ↓
+Select zone or drill point
+    ↓
+Show relevant details/evidence
+
+If the current app already has mine selection logic, reuse it.
+
+Do not create duplicate state systems unnecessarily.
+
+==================================================
+IMPORTANT
+==================================================
+
+Do not implement a paid map API.
+
+Do not add unnecessary dependencies.
+
+If Leaflet/react-leaflet already exists and is suitable, reuse it.
+
+Otherwise preserve the current implementation but make the visual genuinely mine-specific and data-driven.
+
+Prepare the component architecture so future FastAPI endpoints can provide data such as:
+
+GET /mines/{mineId}
+GET /mines/{mineId}/layers
+GET /mines/{mineId}/prospectivity
+
+Do not implement the backend yet.
+
+==================================================
+DO NOT BREAK
+==================================================
+
+Preserve:
+- Existing routes
+- Existing mine overview functionality
+- Reserve Mapping
+- Production/shortfall features
+- Other application pages
+- Current styling system where possible
+
+Only modify files necessary for this feature.
+
+==================================================
+VALIDATION
+==================================================
+
+After implementation:
+
+1. Test switching between at least the existing mines.
+2. Confirm each mine displays different data/geometry/configuration.
+3. Confirm Terrain/Satellite/Intelligence tabs work.
+4. Confirm no generic identical visualization is reused incorrectly.
+5. Run npm run build.
+6. Fix all errors caused by your changes.
+7. Inspect git diff.
+8. Run git status.
+
+Then commit all relevant changes:
+
+git add <relevant changed files>
+git commit -m "feat: add mine-specific intelligence views"
+
+Do not push to GitHub unless explicitly requested.
+
+Finally report:
+- Files changed
+- How mine-specific data flows through the UI
+- What is real data vs demo data
+- Future API integration points
+- Build result
+- Commit hash
+
+
+already few are added
+Whichever is left add them
+and fix it
